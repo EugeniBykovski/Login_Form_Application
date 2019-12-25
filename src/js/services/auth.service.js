@@ -1,5 +1,4 @@
-import axios from 'axios';
-import API_ENV from '../config/api.config';
+import axios from '../plugins/axios';
 
 /**
  * Function login. Make login requestto API
@@ -10,13 +9,8 @@ import API_ENV from '../config/api.config';
 export async function login(email, password) {
     try {
         const response = await axios.post(
-            `${API_ENV.apiUrl}/auth/login`, 
+            `/auth/login`, 
             JSON.stringify({email, password}), 
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            },
         );
 
         console.log(response);

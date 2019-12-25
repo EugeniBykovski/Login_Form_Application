@@ -5,6 +5,8 @@ import UI from './config/ui.config';
 import {validate} from './helpers/validate';
 import {showInputError, removeInputError} from './views/form';
 import {login} from './services/auth.service';
+import {notify} from './views/notification';
+import {getNews} from './services/news.service';
 
 // с помощью деструктуризации мы достали наши элементы
 const {form, inputEmail, inputPassword} = UI;
@@ -38,13 +40,30 @@ async function onSubmit() {
 
     // иначе мы делаем запрос на login
     try {
-        await login (inputEmail.nodeValue, unputPassword.value);
+        await login (inputEmail.value, unputPassword.value);
+        await getNews();
         form.reset();
         // show success notify: notify({msg: 'Login success', className: 'aletr-success', timeout: 1000}) - объект, где был бы какой-то messageб класс для стилизации и таймаут, чтобы эта нотификация через какое-то время удалялась
-        
+        notify({ msg: 'Login success', className: 'alert-success' });
     } catch (err) {
         // show error notify
+        notify({ msg: 'Login faild', className: 'alert-danger' });
     }
 }
 
 // смысл в том, что мы собираем наши inputs, которые мы хотим валидировать, дальше мы бы хотели для каждого input вызывать специальную функцию, передавая туда этот input, а нам бы эта функция говорила валиден этот input или не валиден.
+
+setTimeout(
+    () => notify({ msg: 'Some notification 1', className: 'alert-danger'}),
+    500,
+);
+
+setTimeout(
+    () => notify({ msg: 'Some notification 2', className: 'alert-warning' }),
+    500,
+);
+
+setTimeout(
+    () => notify({ msg: 'Some notification 3', className: 'alert-primary' }),
+    500,
+);
